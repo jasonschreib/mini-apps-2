@@ -13,7 +13,7 @@ class App extends React.Component {
     }
 
     this.handleChange = this.handleChange.bind(this);
-    // searchKeyword = this.searchKeyword.bind(this);
+    this.searchKeyword = this.searchKeyword.bind(this);
   }
 
   //when the component mounts, set the events array in state to be equal to the data in db.json by sending get request
@@ -39,25 +39,28 @@ class App extends React.Component {
   }
 
 
-  //function when the submit button is clicked - will filter events based on searched keyword
-  // searchKeyword() {
-  //   //get the keyword searched
-  //   var keyword = this.state.currentSearch;
-  //   //send a get request with the keyword as the filer
-  //   axios.get(`/events/?=${keyword}`)
-  //     .then((results) => {
-  //       //TODO: if the results sent back are empty
-  //         //then...??
-  //       //set state to be equal to the results returned
-  //       this.setState({
-  //         events: results.data
-  //       });
-  //       console.log('Events', this.state.events);
-  //     })
-  //     .catch((err) => {
-  //       console.log('There was an error retrieving events with the searche keyword', err);
-  //     });
-  // }
+  // function when the submit button is clicked - will filter events based on searched keyword
+  searchKeyword = (e) => {
+    console.log(e);
+    e.preventDefault();
+    //get the keyword searched
+    var keyword = this.state.currentSearch;
+    console.log('keyword', keyword);
+    //send a get request with the keyword as the filer
+    axios.get(`/events/?q=${keyword}`)
+      .then((results) => {
+        //TODO: if the results sent back are empty
+          //then...??
+        //set state to be equal to the results returned
+        this.setState({
+          events: results.data
+        });
+        console.log('Events', this.state.events);
+      })
+      .catch((err) => {
+        console.log('There was an error retrieving events with the searche keyword', err);
+      });
+  }
 
 
   render() {
@@ -71,8 +74,7 @@ class App extends React.Component {
             Search by any Keyword:
     <input type="text" name="keyword" value={this.state.currentSearch} onChange={this.handleChange}/>
           </label>
-          <input type="submit" value="Submit" />
-          {/* onSubmit={this.searchKeyword} */}
+          <input type="submit" value="Submit" onSubmit={this.searchKeyword}/>
         </form>
 
         <div>
