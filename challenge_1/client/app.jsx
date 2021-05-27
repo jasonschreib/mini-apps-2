@@ -34,15 +34,15 @@ class App extends React.Component {
 
   // function that will automatically update the state as the user types
   handleChange(event) {
-    this.setState({currentSearch: event.target.value});
+    this.setState({ currentSearch: event.target.value });
     console.log('Search', this.state.currentSearch);
   }
 
 
   // function when the submit button is clicked - will filter events based on searched keyword
   searchKeyword = (e) => {
-    console.log(e);
-    e.preventDefault();
+    console.log('keyword search event', e);
+    // e.preventDefault();
     //get the keyword searched
     var keyword = this.state.currentSearch;
     console.log('keyword', keyword);
@@ -50,7 +50,7 @@ class App extends React.Component {
     axios.get(`/events/?q=${keyword}`)
       .then((results) => {
         //TODO: if the results sent back are empty
-          //then...??
+        //then...??
         //set state to be equal to the results returned
         this.setState({
           events: results.data
@@ -69,12 +69,12 @@ class App extends React.Component {
         <div>
           <h1>Historical Events Finder</h1>
         </div>
-        <form>
+        <form onSubmit={(e) => {e.preventDefault()}}>
           <label>
             Search by any Keyword:
-    <input type="text" name="keyword" value={this.state.currentSearch} onChange={this.handleChange}/>
+    <input type="text" name="keyword" value={this.state.currentSearch} onChange={this.handleChange} />
           </label>
-          <input type="submit" value="Submit" onSubmit={this.searchKeyword}/>
+          <button type="submit" value="Submit" onClick={this.searchKeyword}/>
         </form>
 
         <div>
