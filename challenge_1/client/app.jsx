@@ -66,10 +66,22 @@ class App extends React.Component {
         //then...??
         //set state to be equal to the results returned
         this.setState({
-          events: results.data,
           pageCount: numPages
         });
-        console.log('numberPages', this.state.pageCount);
+        console.log('numberPagesYUP', this.state.pageCount);
+      })
+      .then(() => {
+        //send a get request for the data from the first page
+        axios.get(`/events/?q=${keyword}&_page=1`)
+        //update the state
+          .then((pageOneResults) => {
+            this.setState({
+              events: pageOneResults.data
+            });
+          })
+          .catch((err) => {
+            console.log('There was an error retrieving items from page One', err);
+          })
       })
       .catch((err) => {
         console.log('There was an error retrieving events with the searched keyword', err);
@@ -130,14 +142,10 @@ class App extends React.Component {
                     previousLabel={"prev"}
                     nextLabel={"next"}
                     breakLabel={"..."}
-                    // breakClassName={"break-me"}
                     pageCount={this.state.pageCount}
                     marginPagesDisplayed={2}
                     pageRangeDisplayed={5}
                     onPageChange={this.handlePageClick}
-                    // containerClassName={"pagination"}
-                    // subContainerClassName={"pages pagination"}
-                    // activeClassName={"active"}
                     />
         </div>
       </div>
