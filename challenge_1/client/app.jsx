@@ -12,8 +12,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       events: [{ "date": "-300", "description": "Pilgrims travel to the healing temples of Asclepieion to be cured of their ills. After a ritual purification the followers bring offerings or sacrifices.", "lang": "en", "category1": "By place", "category2": "Greece", "granularity": "year" }],
-      currentSearch: '',
-      offset: 0,
+      keyword: '',
       eventsPerPage: 10,
       currentPage: 0,
       pageCount: 10
@@ -44,8 +43,8 @@ class App extends React.Component {
 
   // function that will automatically update the state as the user types
   handleChange(event) {
-    this.setState({ currentSearch: event.target.value });
-    console.log('Search', this.state.currentSearch);
+    this.setState({ keyword: event.target.value });
+    console.log('Search', this.state.keyword);
   }
 
 
@@ -54,7 +53,7 @@ class App extends React.Component {
     console.log('keyword search event', e);
     // e.preventDefault();
     //get the keyword searched
-    var keyword = this.state.currentSearch;
+    var keyword = this.state.keyword;
     console.log('keyword', keyword);
     //send a get request with the keyword as the filter
     axios.get(`/events/?q=${keyword}`)
@@ -92,16 +91,22 @@ class App extends React.Component {
   //function to handle the page click
   handlePageClick = (e) => {
     console.log('PAGE CLICK', e);
-    const selectedPage = e.selected;
-    const offset = selectedPage * this.state.eventsPerPage;
+    const selectedPage = e.selected + 1;
 
     this.setState({
-        currentPage: selectedPage,
-        offset: offset
-    }, () => {
+        currentPage: selectedPage
+      }, () => {
+        console.log('PAGE CLICK STATE YUPP', this.state.currentPage);
+      //send get request to retrieve data for the clicked page
+      axios.get(`/events/?q=${this.state.keyword}&_page=${this.state.currentPage}`)
+        .then((pageResults) => {
+          //update the events in state to this page's data
+          this.setState({
+            events: pageResults.data
+          });
+          console.log('New page', this.state.events);
+        })
     });
-    //invoke get request to retrieve data for the clicked page
-    console.log('PAGE CLICK STATE', this.state.currentPage, this.state.offset);
 };
 
 
@@ -114,7 +119,7 @@ class App extends React.Component {
         <form onSubmit={(e) => {e.preventDefault()}}>
           <label>
             Search by any Keyword:
-    <input type="text" name="keyword" value={this.state.currentSearch} onChange={this.handleChange} />
+    <input type="text" name="keyword" value={this.state.keyword} onChange={this.handleChange} />
           </label>
           <button type="submit" onClick={this.searchKeyword}> Submit </button>
         </form>
