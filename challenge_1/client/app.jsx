@@ -15,7 +15,7 @@ class App extends React.Component {
       keyword: '',
       eventsPerPage: 10,
       currentPage: 0,
-      pageCount: 10
+      pageCount: 3786
     }
 
     this.handleChange = this.handleChange.bind(this);
