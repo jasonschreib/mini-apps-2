@@ -14,6 +14,9 @@ class App extends React.Component {
       numOfPinsRemaining: 10,
       bowlingLog: []
     };
+
+    this.clickOnPinNum = this.clickOnPinNum.bind(this);
+
   }
 
   componentDidMount() {
@@ -25,13 +28,17 @@ class App extends React.Component {
     });
   }
 
+  clickOnPinNum(event) {
+    console.log('clicked on num', event.target.innerHTML);
+  }
+
   render() {
     return (
       <div>
-        <h1>Bowling</h1>
+        <h1>Bowling Score Calculator</h1>
         Hey there in App component
         {/* props for Game: currentFrame, currentBowl, numOfPinsSelected, numOfPinsRemaining */}
-        <Game currentFrame={this.state.currentFrame} currentBowl={this.state.currentBowl} numOfPinsSelected={this.state.numOfPinsSelected} numOfPinsRemaining={this.state.numOfPinsRemaining}/>
+        <Game currentFrame={this.state.currentFrame} currentBowl={this.state.currentBowl} numOfPinsSelected={this.state.numOfPinsSelected} numOfPinsRemaining={this.state.numOfPinsRemaining} clickOnPinNum={this.clickOnPinNum}/>
         {/* props for Scores: currentFrame, currentBowl, bowlingLog */}
         <Scores currentFrame={this.state.currentFrame} currentBowl={this.state.currentBowl} bowlingLog={this.state.bowlingLog}/>
       </div>
