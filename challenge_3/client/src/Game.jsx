@@ -5,10 +5,11 @@ import ReactDOM from 'react-dom';
 function Game (props) {
   return (
     <div>
-      <h2>Please select the number of pins to hit for frame {props.currentFrame}</h2>
+      <h2>Please select the number of pins to hit for frame {props.currentFrame} bowl {props.currentBowl}. You have {props.numOfPinsRemaining} pins remaining for this bowl</h2>
 
       <div>
         <div>
+          <button onClick={props.clickOnPinNum}>0</button>
           <button onClick={props.clickOnPinNum}>1</button>
           <button onClick={props.clickOnPinNum}>2</button>
           <button onClick={props.clickOnPinNum}>3</button>

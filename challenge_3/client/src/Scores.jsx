@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 
 function Scores (props) {
 
-    console.log('SCORES COMP', props.currentFrame);
     return (
       <div>
         <h2>Scoring:</h2>
