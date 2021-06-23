@@ -33,8 +33,8 @@ class App extends React.Component {
     console.log('clicked on num', event.target.innerHTML);
     var selectedPins = event.target.innerHTML;
     //when user clicks on the number
-    //if the current bowl is even and number is less than or equal to numPinsRemaining
-    if (this.state.currentBowl % 2 === 0 && selectedPins <= this.state.numOfPinsRemaining) {
+    //if the current bowl is 2 and number is less than or equal to numPinsRemaining
+    if (this.state.currentBowl === 2 && selectedPins <= this.state.numOfPinsRemaining) {
       //add the number of pins clicked to the array
       var updatedBowlingLog = this.state.bowlingLog;
       updatedBowlingLog.push(selectedPins);
@@ -42,22 +42,20 @@ class App extends React.Component {
       var newFrame = this.state.currentFrame;
       newFrame++;
 
-      var newBowl = this.state.currentBowl;
-      newBowl+=2;
-      //increase the frame and currentBowl by one
+      //increase the frame by one and change currentBowl to one
       //set number of pins remaining to 10
       //set number of pins selected to 0
       this.setState({
         bowlingLog: updatedBowlingLog,
         currentFrame: newFrame,
-        currentBowl: newBowl,
+        currentBowl: 1,
         numOfPinsRemaining: 10
       }, () => {console.log('updated', this.state)});
-      //otherwise if the current bowl is odd and number selected is 10
-    } else if (this.state.currentBowl % 2 === 1 && selectedPins === 10) {
+      //otherwise if the current bowl is 1 and number selected is 10
+    } else if (this.state.currentBowl === 1 && selectedPins === 10) {
       //add a 10 to the bowling array followed by a zero
       //increase the frame by one
-      //increase the currentBowl by two
+      //change the currentBowl to two
       //set number of pins remaining to 10
       var updatedBowlingLog = this.state.bowlingLog;
       updatedBowlingLog.push(10);
@@ -66,21 +64,24 @@ class App extends React.Component {
       var newFrame = this.state.currentFrame;
       newFrame++;
 
-      var newBowl = this.state.currentBowl;
-      newBowl+=2;
       this.setState({
         bowlingLog: updatedBowlingLog,
         currentFrame: newFrame,
-        currentBowl: newBowl,
+        currentBowl: 2,
         numOfPinsRemaining: 10
       }, () => {console.log('updated', this.state)});
-      //otherwise if the current bowl is odd, then just add the number that was selected
-    } else if (this.state.currentBowl % 2 === 1) {
+      //otherwise if the current bowl is 1, then just add the number that was selected
+    } else if (this.state.currentBowl === 1) {
+      console.log('curr bowl is odd');
       var updatedBowlingLog = this.state.bowlingLog;
       updatedBowlingLog.push(selectedPins);
 
+      var newNumPinsRemaining = 10 - selectedPins;
+
       this.setState({
-        bowlingLog: updatedBowlingLog
+        bowlingLog: updatedBowlingLog,
+        numOfPinsRemaining: newNumPinsRemaining,
+        currentBowl: 2
       }, () => {console.log('updated', this.state)});
     }
   }
