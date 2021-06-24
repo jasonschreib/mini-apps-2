@@ -12,8 +12,8 @@ class App extends React.Component {
       gameplayOn: false,
       currentFrame: 0,
       currentBowl: 0,
-      numOfPinsSelected: 0,
       numOfPinsRemaining: 10,
+      totalScore: 0,
       bowlingLog: [
         [],
         [],
@@ -29,6 +29,7 @@ class App extends React.Component {
     };
 
     this.clickOnPinNum = this.clickOnPinNum.bind(this);
+    this.calculateScore = this.calculateScore.bind(this);
 
   }
 
@@ -174,11 +175,27 @@ class App extends React.Component {
         currentBowl: 2
       }, () => { console.log('updated', this.state) });
     }
+
+    //invoke calculate score function
+    this.calculateScore();
   }
 
-  //function to display score when game has ended
-  endGame() {
+  //function to calculate the score throughout the game
+  calculateScore () {
+    console.log('in the calculate score function', this.state.bowlingLog);
+    //using the bowling log, calculate the score
+    //set an initial variable for the score
 
+    //iterate over the bowlingLog array
+      //create temp frameScore var and set to 0
+      //calculate the score for each inner array - if the score for the current array is a strike
+        //set framescore equal to 10 plus the next 2 bowls
+      //otherwise if the score for the current array is a spare
+        //set the framescore equal to 10 plus the next bowl
+      //otherwise
+        //set the framescore equal to the first and second bowls of the frame
+      //add the temp frame score to the total score
+    //update the state with this score
   }
 
   render() {
@@ -186,11 +203,11 @@ class App extends React.Component {
       <div>
         <h1>Bowling Score Calculator</h1>
         Hey there in App component
-        {/* props for Game: currentFrame, currentBowl, numOfPinsSelected, numOfPinsRemaining */}
-        {this.state.gameplayOn ? <Game currentFrame={this.state.currentFrame} currentBowl={this.state.currentBowl} numOfPinsSelected={this.state.numOfPinsSelected} numOfPinsRemaining={this.state.numOfPinsRemaining} clickOnPinNum={this.clickOnPinNum} /> : <GameplayOver />}
+        {/* props for Game: currentFrame, currentBowl, numOfPinsRemaining */}
+        {this.state.gameplayOn ? <Game currentFrame={this.state.currentFrame} currentBowl={this.state.currentBowl} numOfPinsRemaining={this.state.numOfPinsRemaining} clickOnPinNum={this.clickOnPinNum} /> : <GameplayOver />}
 
         {/* props for Scores: currentFrame, currentBowl, bowlingLog */}
-        <Scores currentFrame={this.state.currentFrame} currentBowl={this.state.currentBowl} bowlingLog={this.state.bowlingLog} />
+        <Scores currentFrame={this.state.currentFrame} currentBowl={this.state.currentBowl} bowlingLog={this.state.bowlingLog} totalScore={this.state.totalScore}/>
       </div>
     )
   }

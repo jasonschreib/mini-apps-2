@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-{/* props for Game: currentFrame, currentBowl, numOfPinsSelected, numOfPinsRemaining clickOnPinNum function*/}
+{/* props for Game: currentFrame, currentBowl, numOfPinsRemaining clickOnPinNum function*/}
 function Game (props) {
   return (
     <div>
@@ -28,9 +28,6 @@ function Game (props) {
           <button onClick={props.clickOnPinNum}>10</button>
         </div>
       </div>
-
-
-
     </div>
   );
 }
