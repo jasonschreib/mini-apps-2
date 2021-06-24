@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 import Game from './Game.jsx';
 import Scores from './Scores.jsx';
+import GameplayOver from './GameplayOver.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -48,6 +49,7 @@ class App extends React.Component {
 
     // Take care of case when ending game - so if it is the tenth frame
     if (this.state.currentFrame === 10) {
+      console.log('frame10');
       //if it is bowl one
       if (this.state.currentBowl === 1) {
         //if ten selected
@@ -124,8 +126,7 @@ class App extends React.Component {
             gameplayOn: false
           }, () => { console.log('updated', this.state) });
       }
-    }
-    if (this.state.currentBowl === 2 && selectedPins <= this.state.numOfPinsRemaining) {
+    } else if (this.state.currentBowl === 2 && selectedPins <= this.state.numOfPinsRemaining) {
       //add the number of pins clicked to the array
       var updatedBowlingLog = this.state.bowlingLog;
       updatedBowlingLog[this.state.currentFrame - 1].push(selectedPins);
@@ -186,7 +187,8 @@ class App extends React.Component {
         <h1>Bowling Score Calculator</h1>
         Hey there in App component
         {/* props for Game: currentFrame, currentBowl, numOfPinsSelected, numOfPinsRemaining */}
-        <Game currentFrame={this.state.currentFrame} currentBowl={this.state.currentBowl} numOfPinsSelected={this.state.numOfPinsSelected} numOfPinsRemaining={this.state.numOfPinsRemaining} clickOnPinNum={this.clickOnPinNum} />
+        {this.state.gameplayOn ? <Game currentFrame={this.state.currentFrame} currentBowl={this.state.currentBowl} numOfPinsSelected={this.state.numOfPinsSelected} numOfPinsRemaining={this.state.numOfPinsRemaining} clickOnPinNum={this.clickOnPinNum} /> : <GameplayOver />}
+
         {/* props for Scores: currentFrame, currentBowl, bowlingLog */}
         <Scores currentFrame={this.state.currentFrame} currentBowl={this.state.currentBowl} bowlingLog={this.state.bowlingLog} />
       </div>
