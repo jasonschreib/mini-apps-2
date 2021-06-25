@@ -177,25 +177,54 @@ class App extends React.Component {
     }
 
     //invoke calculate score function
-    this.calculateScore();
+    this.calculateScore(this.state.bowlingLog);
   }
 
   //function to calculate the score throughout the game
-  calculateScore () {
-    console.log('in the calculate score function', this.state.bowlingLog);
+  calculateScore (bowls) {
+    console.log('in the calculate score function', bowls);
     //using the bowling log, calculate the score
     //set an initial variable for the score
-
+    var totalScore = 0;
     //iterate over the bowlingLog array
+    for (var i = 0; i < this.state.currentFrame; i++) {
       //create temp frameScore var and set to 0
+      var frameScore = 0;
       //calculate the score for each inner array - if the score for the current array is a strike
-        //set framescore equal to 10 plus the next 2 bowls
-      //otherwise if the score for the current array is a spare
+      if (bowls[i][0] === 10) {
+        console.log('strike');
+        //set framescore equal to 10 plus the next 2 bowls - if the next shot was a strike
+        if (bowls[i + 1][0] === 10) {
+          console.log('strike2');
+          frameScore = 10 + 10 + bowls[i + 2][0];
+        } else {
+          frameScore = 10 + bowls[i + 1][0] + bowls[i + 1][1]
+        }
+        //otherwise if the score for the current array is a spare
+      } else if (bowls[i][0] + bowls[i][1] === 10) {
         //set the framescore equal to 10 plus the next bowl
-      //otherwise
+        frameScore = 10 + bowls[i + 1][0];
+        //otherwise
+      } else {
+        console.log('regular addition score');
         //set the framescore equal to the first and second bowls of the frame
+        frameScore = bowls[i][0] + bowls[i][1];
+      }
       //add the temp frame score to the total score
+      totalScore += frameScore;
+    }
+    //if the total score is NaN,
+    if (isNaN(totalScore)) {
+      console.log('NaN');
+      //then just set it to calculating string
+      totalScore = 'calculating...bowl again to calculate score for frame';
+    }
     //update the state with this score
+    this.setState({
+      totalScore: totalScore
+    }, () => {
+      console.log('total score', this.state.totalScore);
+    });
   }
 
   render() {
