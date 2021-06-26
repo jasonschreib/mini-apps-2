@@ -65,7 +65,7 @@ class App extends React.Component {
             currentBowl: 2,
             numOfPinsRemaining: 10
           }, () => { console.log('updated', this.state) });
-        //if not ten
+          //if not ten
         } else if (selectedPins != 10) {
           //update the bowling log
           //increment currentBowl by one
@@ -105,7 +105,7 @@ class App extends React.Component {
             currentBowl: 3,
             numOfPinsRemaining: 10
           }, () => { console.log('updated', this.state) });
-        //else
+          //else
         } else {
           //update the bowling log
           //end gameplay
@@ -121,11 +121,11 @@ class App extends React.Component {
         //update the bowling log
         //set gameplay to false
         var updatedBowlingLog = this.state.bowlingLog;
-          updatedBowlingLog[this.state.currentFrame - 1].push(selectedPins);
-          this.setState({
-            bowlingLog: updatedBowlingLog,
-            gameplayOn: false
-          }, () => { console.log('updated', this.state) });
+        updatedBowlingLog[this.state.currentFrame - 1].push(selectedPins);
+        this.setState({
+          bowlingLog: updatedBowlingLog,
+          gameplayOn: false
+        }, () => { console.log('updated', this.state) });
       }
     } else if (this.state.currentBowl === 2 && selectedPins <= this.state.numOfPinsRemaining) {
       //add the number of pins clicked to the array
@@ -181,20 +181,31 @@ class App extends React.Component {
   }
 
   //function to calculate the score throughout the game
-  calculateScore (bowls) {
+  calculateScore(bowls) {
     console.log('in the calculate score function', bowls);
     //using the bowling log, calculate the score
     //set an initial variable for the score
     var totalScore = 0;
+    // debugger;
     //iterate over the bowlingLog array
     for (var i = 0; i < this.state.currentFrame; i++) {
       //create temp frameScore var and set to 0
       var frameScore = 0;
+      //special case if it's the tenth frame
+      if (i === 9) {
+        //just add all the numbers in the array together
+        for (var j = 0; j < bowls[9].length; j++) {
+          frameScore += bowls[9][j];
+        }
+        totalScore += frameScore;
+        break;
+      }
+
       //calculate the score for each inner array - if the score for the current array is a strike
       if (bowls[i][0] === 10) {
         console.log('strike');
         //set framescore equal to 10 plus the next 2 bowls - if the next shot was a strike
-        if (bowls[i + 1][0] === 10) {
+        if (bowls[i + 1][0] === 10 && i < 8) {
           console.log('strike2');
           frameScore = 10 + 10 + bowls[i + 2][0];
         } else {
@@ -236,7 +247,7 @@ class App extends React.Component {
         {this.state.gameplayOn ? <Game currentFrame={this.state.currentFrame} currentBowl={this.state.currentBowl} numOfPinsRemaining={this.state.numOfPinsRemaining} clickOnPinNum={this.clickOnPinNum} /> : <GameplayOver />}
 
         {/* props for Scores: currentFrame, currentBowl, bowlingLog */}
-        <Scores currentFrame={this.state.currentFrame} currentBowl={this.state.currentBowl} bowlingLog={this.state.bowlingLog} totalScore={this.state.totalScore}/>
+        <Scores currentFrame={this.state.currentFrame} currentBowl={this.state.currentBowl} bowlingLog={this.state.bowlingLog} totalScore={this.state.totalScore} />
       </div>
     )
   }
