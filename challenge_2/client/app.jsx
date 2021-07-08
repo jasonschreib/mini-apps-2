@@ -8,7 +8,9 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      historicalData: []
+      historicalData: [],
+      labels: [],
+      dataPoints: []
     }
   }
 
@@ -17,10 +19,12 @@ class App extends React.Component {
     axios.get('https://api.coindesk.com/v1/bpi/historical/close.json')
     .then((resData) => {
       //log the data
-      console.log('resData', resData.data.bpi);
+      // console.log('resData', resData.data.bpi);
       //set the state to be the received data
       this.setState({
-        historicalData: resData.data.bpi
+        historicalData: resData.data.bpi,
+        labels: (Object.keys(resData.data.bpi)),
+        dataPoints: (Object.values(resData.data.bpi))
       }, () => {
         console.log('State', this.state);
       })
@@ -33,7 +37,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <TimeSeries />
+        <TimeSeries labels={this.state.labels} dataPoints={this.state.dataPoints}/>
         <a href="https://www.coindesk.com/price/bitcoin">Powered by Coindesk</a>
       </div>
     );

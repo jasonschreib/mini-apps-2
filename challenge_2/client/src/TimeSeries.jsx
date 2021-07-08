@@ -11,23 +11,17 @@ class TimeSeries extends React.Component {
     }
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
+    console.log('props', this.props);
     //setup
-    const labels = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-    ];
+    const labels = this.props.labels;
     const data = {
       labels: labels,
       datasets: [{
-        label: 'My First dataset',
+        label: 'Bitcoin USD Price - Last 31 Days',
         backgroundColor: 'rgb(255, 99, 132)',
         borderColor: 'rgb(255, 99, 132)',
-        data: [0, 10, 5, 2, 20, 30, 45],
+        data: this.props.dataPoints,
       }]
     };
 
