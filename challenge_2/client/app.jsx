@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 
+import TimeSeries from './src/TimeSeries.jsx';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -31,8 +33,8 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <TimeSeries />
         <a href="https://www.coindesk.com/price/bitcoin">Powered by Coindesk</a>
-
       </div>
     );
   }
